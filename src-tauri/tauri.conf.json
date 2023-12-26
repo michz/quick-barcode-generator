@@ -20,7 +20,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "de.mztx.quick-barcode-generator",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -43,13 +43,18 @@
     ],
     "cli": {
       "description": "Easily generates some barcodes",
-      "longDescription": "TODO",
+      "longDescription": "Easily generates some barcodes",
       "beforeHelp": "",
       "afterHelp": "",
       "args": [
         {
           "name": "data",
           "index": 1,
+          "takesValue": true
+        },
+        {
+          "name": "type",
+          "index": 2,
           "takesValue": true
         }
       ],

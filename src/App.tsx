@@ -13,6 +13,23 @@ function App() {
   const inputElement = useRef<HTMLInputElement>(null)
   const result = useRef<HTMLDivElement>(null)
 
+  const availableTypes = [
+    "qr",
+    "code128a",
+    "code128b",
+    "code128c",
+    "code39",
+    "ean13",
+    "ean8",
+    "ean5",
+    "ean2",
+    "upc",
+    "itf14",
+    "msi",
+    "pharmacode",
+    "codabar",
+  ];
+
   async function generateCode() {
     if (!result.current) return;
     if (code.length === 0) return;
@@ -22,7 +39,7 @@ function App() {
     try {
       let svgElement: SVGSVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       switch (type) {
-        case "QR":
+        case "qr":
           const codeWriter = new BrowserQRCodeSvgWriter()
           svgElement = codeWriter.write(code, 400, 400)
           break;
@@ -49,9 +66,12 @@ function App() {
   useEffect(() => {
     getMatches().then((matches) => {
       if (!inputElement.current) return;
-      if ("data" in matches.args && matches.args["data"].value !== null) {
+
+      if ("data" in matches.args && matches.args["data"].occurrences > 0 && matches.args["data"].value !== null) {
         setCode(matches.args["data"].value.toString())
-        //generateCode()
+      }
+      if ("type" in matches.args && matches.args["type"].occurrences > 0 && matches.args["type"].value !== null) {
+        setType(matches.args["type"].value.toString().toLowerCase())
       }
     })
   }, [getMatches])
@@ -67,7 +87,6 @@ function App() {
         className="row"
         onSubmit={(e) => {
           e.preventDefault();
-          //generateCode();
         }}
       >
         <input
@@ -76,26 +95,21 @@ function App() {
           onChange={(e) => setCode(e.currentTarget.value)}
           value={code}
           placeholder="Enter a code..."
+          autoComplete="off"
+          autoCapitalize="off"
+          autoFocus={true}
+          autoCorrect="off"
         />
         <select
           name="type"
           onChange={(e) => setType(e.currentTarget.value)}
           value={type}
         >
-          <option>QR</option>
-          <option>CODE128A</option>
-          <option>CODE128B</option>
-          <option>CODE128C</option>
-          <option>CODE39</option>
-          <option>EAN13</option>
-          <option>EAN8</option>
-          <option>EAN5</option>
-          <option>EAN2</option>
-          <option>UPC</option>
-          <option>ITF14</option>
-          <option>MSI</option>
-          <option>pharmacode</option>
-          <option>codabar</option>
+          { availableTypes.map(t => {
+            return (
+              <option key={ t } value={ t }>{ t }</option>
+            )
+          }) }
         </select>
       </form>
 
