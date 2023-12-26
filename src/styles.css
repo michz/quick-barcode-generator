@@ -46,7 +46,11 @@ form input {
 }
 
 input,
+select,
 button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -72,6 +76,7 @@ button:active {
 }
 
 input,
+select,
 button {
   outline: none;
 }
@@ -88,6 +93,12 @@ button {
   overflow: hidden;
 }
 
+#error {
+  margin: 2rem;
+  padding: 1rem;
+  border: 2px solid rgb(225, 0, 0);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
@@ -99,6 +110,7 @@ button {
   }
 
   input,
+  select,
   button {
     color: #ffffff;
     background-color: #0f0f0f98;

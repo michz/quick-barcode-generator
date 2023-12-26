@@ -3,10 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { getMatches } from '@tauri-apps/api/cli'
 
 import { BrowserQRCodeSvgWriter } from "@zxing/browser";
+import JsBarcode from 'jsbarcode';
 
 
 function App() {
   const [code, setCode] = useState("");
+  const [type, setType] = useState("qr");
+  const [error, setError] = useState("");
   const inputElement = useRef<HTMLInputElement>(null)
   const result = useRef<HTMLDivElement>(null)
 
@@ -14,13 +17,33 @@ function App() {
     if (!result.current) return;
     if (code.length === 0) return;
 
-    const codeWriter = new BrowserQRCodeSvgWriter()
-
     result.current.innerText = '';
-    const svgElement: SVGSVGElement = codeWriter.write(code, 400, 400)
-    svgElement.setAttribute("width", "100%")
-    svgElement.setAttribute("height", "100%")
-    result.current.append(svgElement)
+
+    try {
+      let svgElement: SVGSVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      switch (type) {
+        case "QR":
+          const codeWriter = new BrowserQRCodeSvgWriter()
+          svgElement = codeWriter.write(code, 400, 400)
+          break;
+
+        default:
+          JsBarcode(svgElement, code, {
+            format: type,
+            xmlDocument: document,
+          });
+
+          console.log(svgElement);
+          break;
+      }
+
+      svgElement.setAttribute("width", "100%")
+      svgElement.setAttribute("height", "100%")
+      result.current.append(svgElement)
+      setError("")
+    } catch (e: any) {
+        setError(e.toString())
+    }
   }
 
   useEffect(() => {
@@ -36,7 +59,7 @@ function App() {
   // Code changed
   useEffect(() => {
     generateCode()
-  }, [code])
+  }, [code, type])
 
   return (
     <div className="container">
@@ -54,10 +77,30 @@ function App() {
           value={code}
           placeholder="Enter a code..."
         />
-        <button type="submit">Generate</button>
+        <select
+          name="type"
+          onChange={(e) => setType(e.currentTarget.value)}
+          value={type}
+        >
+          <option>QR</option>
+          <option>CODE128A</option>
+          <option>CODE128B</option>
+          <option>CODE128C</option>
+          <option>CODE39</option>
+          <option>EAN13</option>
+          <option>EAN8</option>
+          <option>EAN5</option>
+          <option>EAN2</option>
+          <option>UPC</option>
+          <option>ITF14</option>
+          <option>MSI</option>
+          <option>pharmacode</option>
+          <option>codabar</option>
+        </select>
       </form>
 
       <div id="result" ref={result}></div>
+      {(error) && <div id="error">{ error }</div>}
     </div>
   );
 }
