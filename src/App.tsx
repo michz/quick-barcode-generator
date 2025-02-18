@@ -5,6 +5,39 @@ import {CliMatches, getMatches} from '@tauri-apps/plugin-cli';
 import { BrowserQRCodeSvgWriter } from "@zxing/browser";
 import JsBarcode from 'jsbarcode';
 
+import { check } from '@tauri-apps/plugin-updater';
+import { relaunch, exit } from '@tauri-apps/plugin-process';
+
+const checkForUpdate = async function () {
+    const update = await check();
+    if (update) {
+        console.log(
+            `found update ${update.version} from ${update.date} with notes ${update.body}`
+        );
+        let downloaded = 0;
+        let contentLength = 0;
+        // alternatively we could also call update.download() and update.install() separately
+        await update.downloadAndInstall((event) => {
+            switch (event.event) {
+                case 'Started':
+                    contentLength = event.data.contentLength ?? 0;
+                    console.log(`started downloading ${event.data.contentLength} bytes`);
+                    break;
+                case 'Progress':
+                    downloaded += event.data.chunkLength;
+                    console.log(`downloaded ${downloaded} from ${contentLength}`);
+                    break;
+                case 'Finished':
+                    console.log('download finished');
+                    break;
+            }
+        });
+
+        console.log('update installed');
+        await relaunch();
+    }
+}
+
 function App() {
   const [code, setCode] = useState("");
   const [type, setType] = useState("qr");
@@ -116,6 +149,15 @@ function App() {
 
       <div id="result" ref={result}></div>
       {(error) && <div id="error">{ error }</div>}
+
+      <div className={'buttons'}>
+        <button
+          onClick={() => checkForUpdate()}
+        >Update</button>
+        <button
+          onClick={() => exit()}
+        >Beenden</button>
+      </div>
     </div>
   );
 }

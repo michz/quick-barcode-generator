@@ -25,6 +25,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -69,6 +70,12 @@
         }
       ],
       "subcommands": {}
+    },
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDc2MEVDNDA3MjUzNUU5OUYKUldTZjZUVWxCOFFPZG1DUzd0MXAzdDZQakVvcWFXVFU4T3kwcUMramFKK1k0VGZSbVMvYmI0OHAK",
+      "endpoints": [
+        "https://github.com/michz/quick-barcode-generator/releases/latest/download/latest.json"
+      ]
     }
   }
 }
