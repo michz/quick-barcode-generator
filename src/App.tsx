@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-//import { invoke } from "@tauri-apps/api/tauri";
-import { getMatches } from '@tauri-apps/api/cli'
+//import { invoke } from "@tauri-apps/api/core";
+import {CliMatches, getMatches} from '@tauri-apps/plugin-cli';
 
 import { BrowserQRCodeSvgWriter } from "@zxing/browser";
 import JsBarcode from 'jsbarcode';
-
 
 function App() {
   const [code, setCode] = useState("");
@@ -50,7 +49,7 @@ function App() {
             xmlDocument: document,
           });
 
-          console.log(svgElement);
+          //console.log(svgElement);
           break;
       }
 
@@ -64,14 +63,16 @@ function App() {
   }
 
   useEffect(() => {
-    getMatches().then((matches) => {
+    getMatches().then((matches: CliMatches) => {
       if (!inputElement.current) return;
 
-      if ("data" in matches.args && matches.args["data"].occurrences > 0 && matches.args["data"].value !== null) {
-        setCode(matches.args["data"].value.toString())
+      //console.log(matches);
+
+      if (matches.args.data?.occurrences > 0 && matches.args.data?.value !== null) {
+        setCode(matches.args.data.value.toString())
       }
-      if ("type" in matches.args && matches.args["type"].occurrences > 0 && matches.args["type"].value !== null) {
-        setType(matches.args["type"].value.toString().toLowerCase())
+      if (matches.args.type?.occurrences > 0 && matches.args.type?.value !== null) {
+        setType(matches.args.type.value.toString().toLowerCase())
       }
     })
   }, [getMatches])

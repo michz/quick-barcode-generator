@@ -5,8 +5,8 @@ Very simple app to generate and display QR code and various types of barcodes.
 Can be called from commandline as:
 
 ```
-quick-barcode-generator data [barcode-type]
-quick-barcode-generator 1234567890 code128b
+quick-barcode-generator --type=[barcode-type] data
+quick-barcode-generator --type=code128b 1234567890
 ```
 
 ## Tauri
@@ -17,7 +17,8 @@ Based on Tauri, see https://tauri.app/ .
 
 ```
 nvm use
-yarn install
+corepack enable
+yarn install --immutable
 yarn tauri dev
 yarn tauri build
 ```
