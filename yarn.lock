@@ -765,6 +765,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tauri-apps/plugin-process@npm:~2":
+  version: 2.2.1
+  resolution: "@tauri-apps/plugin-process@npm:2.2.1"
+  dependencies:
+    "@tauri-apps/api": "npm:^2.0.0"
+  checksum: 10c0/2df6a5272ec0ec7d7d1bd285a796f7354c332105ad615672c0f843b1659fa4a57b7134113b59b11d9ab9a9b5556cfa9fcaddd92446cd84be953c7f6bcdd29730
+  languageName: node
+  linkType: hard
+
+"@tauri-apps/plugin-updater@npm:~2":
+  version: 2.7.1
+  resolution: "@tauri-apps/plugin-updater@npm:2.7.1"
+  dependencies:
+    "@tauri-apps/api": "npm:^2.0.0"
+  checksum: 10c0/5804e064579a9f4d61df2b1a828e7565ff1d9c9389b97924a97a5db09ca3e5d683cb14bcf80bfbf4e70b6310db44de276f41da98b4e30c3fa2bbbb435ff4b178
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.20.5":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
@@ -1676,6 +1694,8 @@ __metadata:
     "@tauri-apps/api": "npm:^2.5.0"
     "@tauri-apps/cli": "npm:^2.5.0"
     "@tauri-apps/plugin-cli": "npm:^2.0.0"
+    "@tauri-apps/plugin-process": "npm:~2"
+    "@tauri-apps/plugin-updater": "npm:~2"
     "@types/react": "npm:^19.1.6"
     "@types/react-dom": "npm:^19.1.6"
     "@vitejs/plugin-react": "npm:^4.5.1"
