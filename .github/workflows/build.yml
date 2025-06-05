@@ -52,26 +52,26 @@ jobs:
           corepack enable
           yarn install --immutable
 
-      - name: build
-        run: yarn tauri build
+      #- name: build
+      #  run: yarn tauri build
+#
+      #- name: debug
+      #  if: matrix.platform == 'ubuntu-22.04' || matrix.platform == 'macos-latest'
+      #  run: |
+      #    set -x
+      #    ls -la || true
+      #    ls -la src-tauri/target/release || true
+      #    ls -la src-tauri/target/release/bundle || true
+      #    ls -la src-tauri/target/release/bundle/dmg || true
+      #    ls -la src-tauri/target/release/bundle/macos || true
 
-      - name: debug
-        if: matrix.platform == 'ubuntu-22.04' || matrix.platform == 'macos-latest'
-        run: |
-          set -x
-          ls -la || true
-          ls -la src-tauri/target/release || true
-          ls -la src-tauri/target/release/bundle || true
-          ls -la src-tauri/target/release/bundle/dmg || true
-          ls -la src-tauri/target/release/bundle/dmg/macos || true
-
-      #- uses: tauri-apps/tauri-action@v0
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
-      #    releaseName: 'App v__VERSION__'
-      #    releaseBody: 'See the assets to download this version and install.'
-      #    releaseDraft: true
-      #    prerelease: false
-      #    args: ${{ matrix.args }}
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+          releaseName: "App v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
