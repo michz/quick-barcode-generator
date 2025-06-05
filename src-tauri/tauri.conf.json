@@ -1,7 +1,7 @@
 {
   "identifier": "de.mztx.quick-barcode-generator",
   "productName": "quick-barcode-generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "build": {
     "beforeDevCommand": "yarn dev",
     "beforeBuildCommand": "yarn build",
